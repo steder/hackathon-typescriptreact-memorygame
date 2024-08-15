@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Card.css';
 
 interface CardProps {
@@ -10,11 +10,12 @@ interface CardProps {
     we can flip the cards back over.
   */
   cardNumber: number;
-
+  onCardClick: (cardNumber: number) => void;
+  resetCard: (cardNumber: number) => void;
 }
 
 // default image for unclicked card
-const unicodeCardSymbol = "🃏";
+const defaultCardSymbol = "🃏";
 
 // Mapping of card numbers to unciode symbols
 const CardSymbols: { [key: number]: string } = {
@@ -36,24 +37,30 @@ const CardSymbols: { [key: number]: string } = {
   // 15: '🍳',
 };
 
-const Card: React.FC<CardProps> = ({ cardNumber }) => {
+function getCardSymbol(cardNumber: number): string {
+  const modifiedCardNumber = Math.floor(cardNumber / 2);
+  const symbolIndex = (modifiedCardNumber) % (Object.keys(CardSymbols).length);
+  return CardSymbols[symbolIndex] || `Card ${modifiedCardNumber}`;
+}
+
+const Card: React.FC<CardProps> = ({ cardNumber, onCardClick, resetCard }) => {
   const [isClicked, setIsClicked] = useState(false); // state to manage if card has been clicked
+
+  useEffect(() => {
+    resetCard(cardNumber);
+  }, [resetCard, cardNumber]);
 
   const handleClick = () => {
     setIsClicked(true); // set isClicked to true when card is clicked
+    onCardClick(cardNumber); // game screen handler for card click
   };
 
-  const getCardSymbol = (cardNumber: number): string => {
-    cardNumber = Math.floor(cardNumber / 2);
-    const symbolIndex = (cardNumber) % (Object.keys(CardSymbols).length);
-    return CardSymbols[symbolIndex] || `Card ${cardNumber}`;
-  };
 
   return (
     <div className="card" onClick={handleClick}>
-      {isClicked ? getCardSymbol(cardNumber) : `${unicodeCardSymbol}`}
+      {isClicked ? getCardSymbol(cardNumber) : `${defaultCardSymbol}`}
     </div>
   );
 };
 
-export default Card;
+export { Card, getCardSymbol };

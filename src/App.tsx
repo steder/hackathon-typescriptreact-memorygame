@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="App">
       {gameState === 'splash' && <SplashScreen onStartGame={startGame} />}
-      {gameState === 'play' && <GameScreen x={4} y={4} onEndGame={endGame} />}
+      {gameState === 'play' && <GameScreen x={4} y={4} randomSeed={7.0} onEndGame={endGame} />}
       {gameState === 'end' && <EndScreen onRestartGame={restartGame} />}
     </div>
   );
