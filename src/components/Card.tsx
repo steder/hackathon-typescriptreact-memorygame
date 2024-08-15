@@ -13,6 +13,29 @@ interface CardProps {
 
 }
 
+// default image for unclicked card
+const unicodeCardSymbol = "🃏";
+
+// Mapping of card numbers to unciode symbols
+const CardSymbols: { [key: number]: string } = {
+  0: '🍕',
+  1: '🍔',
+  2: '🍟',
+  3: '🌭',
+  4: '🍦',
+  5: '🍩',
+  6: '🍪',
+  7: '🍫',
+  // 8: '🍬',
+  // 9: '🍭',
+  // 10: '🍮',
+  // 11: '🍯',
+  // 12: '🍰',
+  // 13: '🍱',
+  // 14: '🍲',
+  // 15: '🍳',
+};
+
 const Card: React.FC<CardProps> = ({ cardNumber }) => {
   const [isClicked, setIsClicked] = useState(false); // state to manage if card has been clicked
 
@@ -20,9 +43,15 @@ const Card: React.FC<CardProps> = ({ cardNumber }) => {
     setIsClicked(true); // set isClicked to true when card is clicked
   };
 
+  const getCardSymbol = (cardNumber: number): string => {
+    cardNumber = Math.floor(cardNumber / 2);
+    const symbolIndex = (cardNumber) % (Object.keys(CardSymbols).length);
+    return CardSymbols[symbolIndex] || `Card ${cardNumber}`;
+  };
+
   return (
     <div className="card" onClick={handleClick}>
-      Card {cardNumber} {isClicked && 'Clicked'}
+      {isClicked ? getCardSymbol(cardNumber) : `${unicodeCardSymbol}`}
     </div>
   );
 };
