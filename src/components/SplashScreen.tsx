@@ -19,7 +19,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onStartGame }) => {
   return (
     <div className="screen">
       <h1>Welcome to My Game App!!</h1>
-      <p>This is the splash screen of the game.</p>
+      <p>
+        Test your memory by matching pairs of cards. Click on a card to flip it over and reveal its symbol. 
+        Try to find the matching card by flipping another card. If the cards match, they will stay flipped. 
+        If they don't match, they will flip back over. The game ends when all pairs are matched. 
+        Try to complete the game in the fewest moves and shortest time possible!
+      </p>
       <button onClick={onStartGame}>Start Game</button>
     </div>
   );
